@@ -17,3 +17,4 @@
 //= require bootstrap-sprockets
 //= require_tree .
 //= require_jquery-ui
+//= require jquery-ui/widgets/sortable
