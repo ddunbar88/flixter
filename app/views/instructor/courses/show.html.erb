@@ -19,6 +19,18 @@
       }
     });
 
+    $('.sections').sortable({
+      update: function( event, ui ) {
+        $.ajax({
+          type: 'PUT',
+          url: ui.item.data('update-url'),
+          dataType: 'json',
+          data: { section: { row_order_position: ui.item.index() } }
+        });
+      }
+    });
+
+
   });
 </script>
 
@@ -43,12 +55,13 @@
 
 
 <ul class="sections">
-  <% current_course.sections.each do |section| %>
-    <li class="section-li">
-     <div class="header">
-       <span class="fa fa-ellipsis-v"></span>
-       <%= section.title %>
-     </div>
+  <% current_course.sections.rank(:row_order).each do |section| %>
+      <li data-update-url="<%= instructor_section_path(section) %>" class="section-li"> 
+        <div class="header">
+           <span class="fa fa-ellipsis-v"></span>
+           <%= section.title %>
+        </div>
+
      <!-- Button trigger modal (Lesson) -->
       <button type="button" class="btn btn-primary btn-lg float-right new-lesson-button" data-toggle="modal" data-target="#newLessonModal" data-lesson-url="<%= instructor_section_lessons_path(section) %>">
       New Lesson...
